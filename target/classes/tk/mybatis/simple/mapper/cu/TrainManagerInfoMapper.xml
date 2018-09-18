@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                 "http://mybatis.org/dtd.mybatis-3-mapper.dtd" >
+
+ 
+ <mapper namespace="tk.mybatis.simple.cu.dao.ITrainManagerInfoMapper">
+ 
+ 	<resultMap id="trainManagerInfoBaseMap" type="tk.mybatis.simple.cu.model.TrainManagerInfo">
+ 		<id property="id" column="id" />
+ 		<result property="ccbEmpId" column="CCB_EMP_ID" />
+ 		<result property="empeNm" column="EMPE_NM" />
+ 		<result property="userId" column="USER_ID" />
+ 		<result property="empeIdLandNm" column="EMPE_ID_LAND_NM" />
+ 		<result property="traininstId" column="TRAININST_ID" />
+ 		<result property="contactInfo1" column="CONTACT_INFO_1" />
+ 		<result property="contactInfo2" column="CONTACT_INFO_2" />
+ 		<result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+ 		<result property="lastUdtTime" column="LAST_UDT_TIME" jdbcType="TIMESTAMP"/>
+ 	</resultMap>
+ 		
+ 	<select id="selectAll" resultMap="trainManagerInfoBaseMap">
+		SELECT
+		    ID,
+		    CCB_EMP_ID,
+		    EMPE_NM,
+		    USER_ID,
+		    EMPE_ID_LAND_NM,
+		    CONTACT_INFO_1,
+		    CONTACT_INFO_2,
+		    CREATE_TIME,
+		    LAST_UDT_TIME,
+		    TRAININST_ID
+		FROM
+		    train_manager_info
+ 	</select>
+ 	
+ 	<select id="selectById" resultMap="trainManagerInfoBaseMap">
+		SELECT
+		    ID,
+		    CCB_EMP_ID,
+		    EMPE_NM,
+		    USER_ID,
+		    EMPE_ID_LAND_NM,
+		    CONTACT_INFO_1,
+		    CONTACT_INFO_2,
+		    CREATE_TIME,
+		    LAST_UDT_TIME,
+		    TRAININST_ID
+		FROM
+		    train_manager_info
+		where id=#{id}
+ 	</select>
+ 	
+ 	<insert id="insert" parameterType="tk.mybatis.simple.cu.model.TrainManagerInfo">
+ 		INSERT INTO train_manager_info
+ 		(
+ 			ID, 
+ 			CCB_EMP_ID, 
+ 			EMPE_NM, 
+ 			USER_ID, 
+ 			EMPE_ID_LAND_NM, 
+ 			TRAININST_ID, 
+ 			CONTACT_INFO_1, 
+ 			CONTACT_INFO_2, 
+ 			CREATE_TIME, 
+ 			LAST_UDT_TIME
+ 		)
+		VALUES
+    	(
+    		REPLACE(UUID(), '-', ''), 
+    		#{ccbEmpId}, 
+    		#{empeNm}, 
+    		#{userId}, 
+    		#{empeIdLandNm}, 
+    		#{traininstId}, 
+    		#{contactInfo1}, 
+    		#{contactInfo2}, 
+    		NOW(), 
+    		NOW()
+    	)
+    	<selectKey keyColumn="id" resultType="String" keyProperty="id" order="AFTER">
+ 			select last_insert_id()
+ 		</selectKey>
+ 	</insert>
+ 	
+ 	
+ 	<insert id="insertList" parameterType="tk.mybatis.simple.cu.model.TrainManagerInfo">
+ 		INSERT INTO train_manager_info
+ 		(
+ 			ID, 
+ 			CCB_EMP_ID, 
+ 			EMPE_NM, 
+ 			USER_ID, 
+ 			EMPE_ID_LAND_NM, 
+ 			TRAININST_ID, 
+ 			CONTACT_INFO_1, 
+ 			CONTACT_INFO_2, 
+ 			CREATE_TIME, 
+ 			LAST_UDT_TIME
+ 		)
+		VALUES
+		<foreach collection="list" index="index" item="item" separator="," >
+    	(
+    		REPLACE(UUID(), '-', ''), 
+    		#{item.ccbEmpId}, 
+    		#{item.empeNm}, 
+    		#{item.userId}, 
+    		#{item.empeIdLandNm}, 
+    		#{item.traininstId}, 
+    		#{item.contactInfo1}, 
+    		#{item.contactInfo2}, 
+    		NOW(), 
+    		NOW()
+    	)
+    	</foreach>
+ 	</insert>
+
+	<update id="updateByMap">
+		update train_manager_info 
+		<!-- set 
+			<foreach collection="info" item="value" index="key" separator=",">
+				<if test="value != null and value !=''">
+					${key} = #{value}
+				</if>
+			</foreach>
+		where id=#{info.id} -->
+		set 
+			<foreach collection="_parameter" item="value" index="key" separator=",">
+				<if test="value != null and value !=''">
+					${key} = #{value}
+				</if>
+			</foreach>
+		where id=#{id}
+	</update>
+
+	<update id="updateById" parameterType="tk.mybatis.simple.cu.model.TrainManagerInfo">
+		update train_manager_info set 
+		<if test="ccbEmpId != null and ccbEmpId !='' ">
+		CCB_EMP_ID=#{ccbEmpId},
+		</if>
+	    <if test="empeNm != null and empeNm !=''">
+	    EMPE_NM=#{empeNm},
+	    </if>
+		<if test="userId != null and userId != ''">
+		USER_ID=#{userId},
+		</if>
+		<if test="empeIdLandNm != null and empeIdLandNm != ''">
+		EMPE_ID_LAND_NM=#{empeIdLandNm},
+		</if>
+		<if test="traininstId != null and traininstId != ''">
+		TRAININST_ID=#{traininstId},
+		</if>
+		<if test="contactInfo1 != null and contactInfo1 != ''">
+		CONTACT_INFO_1=#{contactInfo1},
+		</if>
+		<if test="contactInfo2 != null and contactInfo2 != ''">
+		CONTACT_INFO_2=#{contactInfo2},
+		</if>
+		LAST_UDT_TIME=NOW(),
+		id = #{id}		
+		where id=#{id}
+	</update>
+	
+
+ </mapper>

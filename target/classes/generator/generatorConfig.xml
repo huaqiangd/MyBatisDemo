@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration 
+PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" 
+"http://mybatis.org/dtd/mybatis-generator-config_1_O.dtd">
+<generatorConfiguration>
+	<!--用来指定外部的属性元素，最多可以配置1个，也可以不配置。  -->
+	<properties resource="config/jdbc.properties" />	
+	<context id="MySqlContext" targetRuntime="MyBatis3Simple"
+		defaultModelType="flat">
+		<property name="beginningDelimiter" value="`" />
+		<property name="endingDelimiter" value="`" />
+		<commentGenerator>  <!--type="自定义注释生成类"  -->
+			<property name="suppressDate" value="true" />
+			<property name="addRemarkComments" value="true" />
+		</commentGenerator>
+		<!-- <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/mybatis" 
+			user Id="root" password="123456" /> -->
+		<jdbcConnection driverClass="${jdbc.driverClassName}"
+			connectionURL="${jdbc.url}" userId="${jdbc.username}"
+			password="${jdbc.password}" />
+		<javaModelGenerator
+			targetPackage="tk.mybatis.simple.generator.model" targetProject="src\main\java">
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<sqlMapGenerator targetPackage="tk.mybatis.simple.xml"
+			targetProject="src\main\resources" />
+		</sqlMapGenerator>
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="tk.mybatis.simple.generator.dao" targetProject="src\main\java" />
+
+		<table tableName="%">
+			<generatedKey column="id" sqlStatement="MySql" />
+		</table>
+	</context>
+</generatorConfiguration>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd.mybatis-3-mapper.dtd" >
+<mapper namespace="tk.mybatis.simple.base.dao.SysRoleMapper">
+	<resultMap id="SysRoleBaseResultMap"
+		type="tk.mybatis.simple.base.model.SysRole">
+		<id column="id" jdbcType="BIGINT" property="id" />
+		<result column="role_name" jdbcType="VARCHAR"
+			property="roleName" />
+		<result column="enabled" jdbcType="INTEGER" property="enabled" />
+		<result column="create_by" jdbcType="BIGINT"
+			property="createBy" />
+		<result column="create_time" jdbcType="TIMESTAMP"
+			property="createTime" />
+	</resultMap>
+	<select id="selectAll"
+		resultType="tk.mybatis.simple.base.model.SysRole">
+		select id,role_name roleName,enabled enabled, create_by
+		createBy,create_time createTime
+		from sys_role
+	</select>
+	<select id="selectRoleByUserId" resultMap="SysRoleBaseResultMap">
+		SELECT
+		    sr.id,
+		    sr.role_name,
+		    sr.enabled,
+		    sr.create_by,
+		    sr.create_time
+		FROM
+		    sys_role sr
+		INNER JOIN sys_user_role sur ON sur.role_id = sr.id
+		where sur.user_id = #{userId}
+	</select>
+</mapper>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  configuration 
+ PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<properties resource="config/jdbc.properties" />
+	<!-- <properties resource="config/log4j.properties" /> -->
+	<!--指定使用LOG4J输出日志 -->
+	<settings>
+		<setting name="logImpl" value="LOG4J" />
+		<!--true可以自动将画线方式命名的数据库列映射到Java对象的驼峰式命名属性,默认为 false -->
+		<!-- <setting name="mapUnderscoreToCamelCase" value="true" /> -->
+	</settings>
+
+	<!--配置了包的别名 -->
+	<!-- <typeAliases> <package name="tk.mybatis.simple.model" /> </typeAliases> -->
+	<!--环境配置中主要配置了数据库连接 -->
+	<!--使用 spring 配置数据库信息时，就可以注释掉了 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC">
+				<property name="" value="" />
+			</transactionManager>
+			<dataSource type="UNPOOLED">
+				<property name="driver" value="${jdbc.driverClassName}" />
+				<property name="url" value="${jdbc.url}" />
+				<property name="username" value="${jdbc.username}" />
+				<property name="password" value="${jdbc.password}" />
+			</dataSource>
+			<!-- <dataSource type="UNPOOLED"> <property name="driver" value="com.mysql.jdbc.Driver" 
+				/> <property name="url" value="jdbc:mysql://10.128.13.64:8099/cudev?useUnicode=true&amp;characterEncoding=utf8&amp;useSSL=false" 
+				/> <property name="username" value="cu" /> <property name="password" value="1qaz@WSX" 
+				/> </dataSource> -->
+		</environment>
+	</environments>
+	<!--配置了一个包含完整类路径的CountryMapper.xml，这是一个MyBatis的SQL语句和映射配置文件 -->
+	<mappers>
+		<mapper
+			resource="tk/mybatis/simple/mapper/country/CountryMapper.xml" />
+		<mapper
+			resource="tk/mybatis/simple/mapper/cu/TrainManagerInfoMapper.xml" />
+		<mapper
+			resource="tk/mybatis/simple/mapper/base/SysUserMapper.xml" />
+		<mapper
+			resource="tk/mybatis/simple/mapper/base/SysRoleMapper.xml" />
+		<mapper
+			resource="tk/mybatis/simple/mapper/base/SysPrivilegeMapper.xml" />
+		<mapper
+			resource="tk/mybatis/simple/mapper/base/SysUserRoleMapper.xml" />
+		<mapper
+			resource="tk/mybatis/simple/mapper/base/SysRolePrivilegeMapper.xml" />
+	</mappers>
+
+	<!-- <mappers> 这种方式，要保证 mapper.xml 文件 和 其 namespace的接口在 在同一目录下 <package 
+		name="tk.mybatis.simple" /> </mappers> -->
+
+</configuration>
